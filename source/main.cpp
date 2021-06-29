@@ -32,30 +32,40 @@ static const float features[] = {
 
 };
 
-int raw_feature_get_data(size_t offset, size_t length, float *out_ptr) {
-    memcpy(out_ptr, features + offset, length * sizeof(float));
-    return 0;
+int raw_feature_get_data(size_t offset, size_t length, float *out_ptr)
+{
+  memcpy(out_ptr, features + offset, length * sizeof(float));
+  return 0;
 }
 
-void on_uart_rx() {
+void on_uart_rx()
+{
   uint8_t current_ch = 0;
-  while (uart_is_readable(UART_ID)) {
+  while (uart_is_readable(UART_ID))
+  {
     current_ch = uart_getc(UART_ID);
     //    printf("%c \n", current_ch);
-    if (start_flag) {
+    if (start_flag)
+    {
       command[receive_index++] = current_ch;
     }
-    if (current_ch == 0xf4 && previous_ch == 0xf5) {
+    if (current_ch == 0xf4 && previous_ch == 0xf5)
+    {
       start_flag = true;
-    } else if (current_ch == 0x0a && previous_ch == 0x0d) {
+    }
+    else if (current_ch == 0x0a && previous_ch == 0x0d)
+    {
       start_flag = false;
       // add terminator
       command[receive_index - 2] = '\0';
 
       receive_index = 0;
-      if (strcmp("IND=BLECONNECTED", (const char *)command) == 0) {
+      if (strcmp("IND=BLECONNECTED", (const char *)command) == 0)
+      {
         linked = true;
-      } else if (strcmp("IND=BLEDISCONNECTED", (const char *)command) == 0) {
+      }
+      else if (strcmp("IND=BLEDISCONNECTED", (const char *)command) == 0)
+      {
         linked = false;
       }
       printf("%s\n", command);
@@ -64,7 +74,8 @@ void on_uart_rx() {
   }
 }
 
-void setup_uart() {
+void setup_uart()
+{
   // Set up our UART with the required speed.
   uint baud = uart_init(UART_ID, BAUD_RATE);
   // Set the TX and RX pins by using the function select on the GPIO
@@ -88,10 +99,13 @@ void setup_uart() {
   uart_set_irq_enables(UART_ID, true, false);
 }
 #else
-void setup_uart() {}
+void setup_uart()
+{
+}
 #endif
 
-int main() {
+int main()
+{
   stdio_usb_init();
   setup_uart();
 
@@ -100,51 +114,57 @@ int main() {
 
   ei_impulse_result_t result = {nullptr};
 
-  while (true) {
+  while (true)
+  {
     gpio_put(LED_PIN, !gpio_get(LED_PIN));
 
-    ei_printf("Edge Impulse standalone inferencing\n");
+    ei_printf("Edge Impulse standalone inferencing (Raspberry Pi Pico)\n");
 
-    if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE) {
-        ei_printf("The size of your 'features' array is not correct. Expected %d items, but had %u\n",
-            EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE, sizeof(features) / sizeof(float));
-        return 1;
+    if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE)
+    {
+      ei_printf("The size of your 'features' array is not correct. Expected %d items, but had %u\n",
+                EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE, sizeof(features) / sizeof(float));
+      return 1;
     }
 
-    while (1) {
-        // the features are stored into flash, and we don't want to load everything into RAM
-        signal_t features_signal;
-        features_signal.total_length = sizeof(features) / sizeof(features[0]);
-        features_signal.get_data = &raw_feature_get_data;
+    while (1)
+    {
+      // the features are stored into flash, and we don't want to load everything into RAM
+      signal_t features_signal;
+      features_signal.total_length = sizeof(features) / sizeof(features[0]);
+      features_signal.get_data = &raw_feature_get_data;
 
-        // invoke the impulse
-        EI_IMPULSE_ERROR res = run_classifier(&features_signal, &result, true);
+      // invoke the impulse
+      EI_IMPULSE_ERROR res = run_classifier(&features_signal, &result, true);
 
-        ei_printf("run_classifier returned: %d\n", res);
+      ei_printf("run_classifier returned: %d\n", res);
 
-        if (res != 0) return 1;
+      if (res != 0)
+        return 1;
 
-        ei_printf("Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
-            result.timing.dsp, result.timing.classification, result.timing.anomaly);
+      ei_printf("Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
+                result.timing.dsp, result.timing.classification, result.timing.anomaly);
 
-        // print the predictions
-        ei_printf("[");
-        for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
-            ei_printf("%.5f", result.classification[ix].value);
+      // print the predictions
+      ei_printf("[");
+      for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++)
+      {
+        ei_printf("%.5f", result.classification[ix].value);
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
-            ei_printf(", ");
+        ei_printf(", ");
 #else
-            if (ix != EI_CLASSIFIER_LABEL_COUNT - 1) {
-                ei_printf(", ");
-            }
-#endif
+        if (ix != EI_CLASSIFIER_LABEL_COUNT - 1)
+        {
+          ei_printf(", ");
         }
-#if EI_CLASSIFIER_HAS_ANOMALY == 1
-        printf("%.3f", result.anomaly);
 #endif
-        printf("]\n");
+      }
+#if EI_CLASSIFIER_HAS_ANOMALY == 1
+      printf("%.3f", result.anomaly);
+#endif
+      printf("]\n");
 
-        ei_sleep(2000);
+      ei_sleep(2000);
     }
   }
 }
