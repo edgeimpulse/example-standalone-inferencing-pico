@@ -1,16 +1,16 @@
-# Edge Impulse Stand-alone Inferencing (Raspberry Pi Pico)
+# Edge Impulse Example: stand-alone inferencing (Raspberry Pi Pico)
 
-This builds an exported impulse to a .uf2 file that can be dragged and dropped to a Raspberry Pi Pico. Based on the Arducam Pico4ML Magic Wand Example: https://github.com/ArduCAM/Pico4ML-Magic-Wand/ 
+This repository runs an exported impulse on the Raspberry Pi Pico. See the documentation at [Running your impulse locally](https://docs.edgeimpulse.com/docs/running-your-impulse-locally-1). Based off of the [Arducam Pico4ML Magic Wand Example](https://github.com/ArduCAM/Pico4ML-Magic-Wand/). 
 
 ## Build & Flash
 
 ### Pre-requisites
 
-* Raspberry Pi Pico
-* Edge Impulse CLI
-* GCC
-* CMake
-* Pico SDK:
+* [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/).
+* [Edge Impulse CLI](https://docs.edgeimpulse.com/docs/cli-installation).
+* [gcc-arm-none-eabi](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads).
+* [CMake](https://cmake.org/install/).
+* Rasperry Pi Pico SDK:
    ```bash
    git clone -b master https://github.com/raspberrypi/pico-sdk.git
    cd pico-sdk
@@ -36,10 +36,6 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
 
 ### Build
 
-1. Get the submodules:
-   ```bash
-   git submodule update --init
-   ```
 1. Create the `build` folder:
    ```bash
    mkdir build && cd build
@@ -51,6 +47,10 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
 
 ### Flash
 
-Connect the *Pico4ML* to the *PC* using the *micro-USB* cable and make sure to force it to *USB Mass Storage Mode* by pressing and holding the **BOOTSEL** button.
+Connect the Raspberry Pi Pico to your computer using a micro-USB cable while pressing and holding the **BOOTSEL** button.
 
-Drag the [build/pico_standalone.uf2](build/pico_standalone.uf2) file to the *RPI-RP2* disk!
+Drag and drop the [build/pico_standalone.uf2](build/pico_standalone.uf2) file to the **RPI-RP2** disk in your file explorer!
+
+### Serial connection
+
+Use screen or minicom to set up a serial connection over USB. The following UART settings are used: 9600 baud, 8N1.
