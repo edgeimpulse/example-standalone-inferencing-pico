@@ -116,8 +116,6 @@ int main()
 
   while (true)
   {
-    gpio_put(LED_PIN, !gpio_get(LED_PIN));
-
     ei_printf("Edge Impulse standalone inferencing (Raspberry Pi Pico)\n");
 
     if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE)
@@ -129,6 +127,9 @@ int main()
 
     while (1)
     {
+      // blink LED
+      gpio_put(LED_PIN, !gpio_get(LED_PIN));
+
       // the features are stored into flash, and we don't want to load everything into RAM
       signal_t features_signal;
       features_signal.total_length = sizeof(features) / sizeof(features[0]);
