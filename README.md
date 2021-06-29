@@ -2,13 +2,16 @@
 
 This repository runs an exported impulse on the Raspberry Pi Pico. See the documentation at [Running your impulse locally](https://docs.edgeimpulse.com/docs/running-your-impulse-locally-1). Based off of the [Arducam Pico4ML Magic Wand Example](https://github.com/ArduCAM/Pico4ML-Magic-Wand/). 
 
-## Build & Flash
+## Requirements
 
-### Pre-requisites
+### Hardware
 
 * [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/).
+
+### Software
+
 * [Edge Impulse CLI](https://docs.edgeimpulse.com/docs/cli-installation).
-* [gcc-arm-none-eabi](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads).
+* [GNU ARM Embedded Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads).
 * [CMake](https://cmake.org/install/).
 * Rasperry Pi Pico SDK:
    ```bash
@@ -17,6 +20,8 @@ This repository runs an exported impulse on the Raspberry Pi Pico. See the docum
    git submodule update --init
    export PATH="<Path to Pico SDK>:$PATH"
    ```
+
+## Building the application
 
 ### Get the Edge Impulse SDK
 
@@ -28,13 +33,14 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
    ├─ model-parameters
    ├─ source
    ├─ tflite-model
+   ├─ .gitignore
    ├─ CMakeLists.txt
    ├─ LICENSE
-   ├─ pico_sdk_import.cmake
    ├─ README.md
+   └─ pico_sdk_import.cmake
    ```
 
-### Build
+### Compile
 
 1. Create the `build` folder:
    ```bash
@@ -49,7 +55,7 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
 
 Connect the Raspberry Pi Pico to your computer using a micro-USB cable while pressing and holding the **BOOTSEL** button.
 
-Drag and drop the [build/pico_standalone.uf2](build/pico_standalone.uf2) file to the **RPI-RP2** disk in your file explorer!
+Drag and drop the [build/pico_standalone.uf2](build/pico_standalone.uf2) file to the **RPI-RP2** disk in your file explorer.
 
 ### Serial connection
 
