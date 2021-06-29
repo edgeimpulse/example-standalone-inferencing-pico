@@ -55,7 +55,7 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
 
 Connect the Raspberry Pi Pico to your computer using a micro-USB cable while pressing and holding the **BOOTSEL** button.
 
-Drag and drop the [build/pico_standalone.uf2](build/pico_standalone.uf2) file to the **RPI-RP2** disk in your file explorer.
+Drag and drop the `build/pico_standalone.uf2` file to the **RPI-RP2** disk in your file explorer.
 
 ### Serial connection
 
