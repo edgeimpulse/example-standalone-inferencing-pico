@@ -1,4 +1,5 @@
 #include "ei_run_classifier.h"
+#include "EiProfiler.h"
 #include "test_data.h"
 
 #include <hardware/gpio.h>
@@ -143,10 +144,13 @@ int main()
     EI_IMPULSE_ERROR res = run_classifier(&signal, &result, true);
 
     int num = 20;
+    EiProfiler pp;
     for (int i = 0; i < num; i++)
     {
       numpy::signal_from_buffer((float *)&audio_data[i * 16000 / num], 16000 / num, &signal);
       EI_IMPULSE_ERROR r = run_classifier_continuous(&signal, &result1, false, false);
+      pp.report("Slice time(ms): ");
+      pp.reset();
     }
 
     printf("\n\nPrinting run_classifier:\n");
