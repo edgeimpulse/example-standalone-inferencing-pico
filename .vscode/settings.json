@@ -1,0 +1,20 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#f9aa88",
+        "activityBar.activeBorder": "#089833",
+        "activityBar.background": "#f9aa88",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#089833",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "statusBar.background": "#f78857",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#f56626",
+        "titleBar.activeBackground": "#f78857",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#f7885799",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#f78857",
+    "window.title": "RPico Poly Test"
+}
