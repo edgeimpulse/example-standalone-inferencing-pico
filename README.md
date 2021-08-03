@@ -59,4 +59,4 @@ Drag and drop the `build/pico_standalone.uf2` file to the **RPI-RP2** disk in yo
 
 ### Serial connection
 
-Use screen or minicom to set up a serial connection over USB. The following UART settings are used: 9600 baud, 8N1.
+Use screen or minicom to set up a serial connection over USB. The following UART settings are used: 115200 baud, 8N1.
