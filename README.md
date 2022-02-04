@@ -48,7 +48,8 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
    ```
 1. Compile:
    ```bash
-   cmake .. && cmake --build . --parallel
+   cmake .. 
+   clear && make -j4
    ```
 
 ### Flash
@@ -59,4 +60,4 @@ Drag and drop the `build/pico_standalone.uf2` file to the **RPI-RP2** disk in yo
 
 ### Serial connection
 
-Use screen or minicom to set up a serial connection over USB. The following UART settings are used: 115200 baud, 8N1.
+Use screen, minicom or Serial monitor in Arduino IDE to set up a serial connection over USB. The following UART settings are used: 115200 baud, 8N1.
