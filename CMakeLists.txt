@@ -13,7 +13,6 @@ pico_sdk_init()
 
 add_executable(pico_standalone
   source/main.cpp
-  source/ei_classifier_porting.cpp
   )
 
 include(${MODEL_FOLDER}/edge-impulse-sdk/cmake/utils.cmake)
