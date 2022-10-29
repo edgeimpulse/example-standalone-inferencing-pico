@@ -1,2 +1,3 @@
-build/
+build/*
+!build/app.elf.map
 *.DS_Store
