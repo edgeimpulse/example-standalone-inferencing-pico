@@ -1,6 +1,6 @@
 # Edge Impulse Example: stand-alone inferencing (Raspberry Pi Pico)
 
-This repository runs an exported impulse on the Raspberry Pi Pico / RP2040. See the documentation at [Running your impulse locally](https://docs.edgeimpulse.com/docs/running-your-impulse-locally-1). This repository is based off of the [Arducam Pico4ML Magic Wand Example](https://github.com/ArduCAM/Pico4ML-Magic-Wand/). 
+This repository runs an exported impulse on the Raspberry Pi Pico / RP2040. See the documentation at [Running your impulse locally](https://docs.edgeimpulse.com/docs/running-your-impulse-locally-1). This repository is based off of the [Arducam Pico4ML Magic Wand Example](https://github.com/ArduCAM/Pico4ML-Magic-Wand/).
 
 ## Requirements
 
@@ -25,16 +25,16 @@ This repository runs an exported impulse on the Raspberry Pi Pico / RP2040. See 
 
 ### Get the Edge Impulse SDK
 
-Unzip the deployed `C++ library` from your Edge Impulse project and copy only the folders to the root directory of this repository:
+Unzip the deployed `C++ library` from your Edge Impulse project and copy to the source directory of this repository:
 
    ```
    example-standalone-inferencing-pico/
-   ├─ edge-impulse-sdk
-   ├─ model-parameters
    ├─ source
-   ├─ tflite-model
+   ├─- model-parameters
+   ├─- edge-impulse-sdk
+   ├─- tflite-model
+   ├─- CMakeLists.txt
    ├─ .gitignore
-   ├─ CMakeLists.txt
    ├─ LICENSE
    ├─ README.md
    └─ pico_sdk_import.cmake
@@ -48,7 +48,7 @@ Unzip the deployed `C++ library` from your Edge Impulse project and copy only th
    ```
 1. Compile:
    ```bash
-   cmake .. 
+   cmake ..
    clear && make -j4
    ```
 
