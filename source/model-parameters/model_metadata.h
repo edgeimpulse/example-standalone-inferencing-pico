@@ -45,22 +45,22 @@
 #define EI_CLASSIFIER_DATATYPE_FLOAT32           1
 #define EI_CLASSIFIER_DATATYPE_INT8              9
 
-#define EI_CLASSIFIER_PROJECT_ID                 8669
-#define EI_CLASSIFIER_PROJECT_OWNER              "Arjan Kamphuis"
-#define EI_CLASSIFIER_PROJECT_NAME               "Gestures Dataset"
-#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     240
-#define EI_CLASSIFIER_NN_INPUT_FRAME_SIZE        33
-#define EI_CLASSIFIER_RAW_SAMPLE_COUNT           125
+#define EI_CLASSIFIER_PROJECT_ID                 27
+#define EI_CLASSIFIER_PROJECT_OWNER              "AlexLocal"
+#define EI_CLASSIFIER_PROJECT_NAME               "Gestures"
+#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     62
+#define EI_CLASSIFIER_NN_INPUT_FRAME_SIZE        84
+#define EI_CLASSIFIER_RAW_SAMPLE_COUNT           100
 #define EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME      3
 #define EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE       (EI_CLASSIFIER_RAW_SAMPLE_COUNT * EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME)
 #define EI_CLASSIFIER_INPUT_WIDTH                0
 #define EI_CLASSIFIER_INPUT_HEIGHT               0
 #define EI_CLASSIFIER_INPUT_FRAMES               0
 #define EI_CLASSIFIER_NN_OUTPUT_COUNT            4
-#define EI_CLASSIFIER_INTERVAL_MS                16
+#define EI_CLASSIFIER_INTERVAL_MS                20
 #define EI_CLASSIFIER_LABEL_COUNT                4
 #define EI_CLASSIFIER_HAS_ANOMALY                0
-#define EI_CLASSIFIER_FREQUENCY                  62.5
+#define EI_CLASSIFIER_FREQUENCY                  50
 #define EI_CLASSIFIER_USE_QUANTIZED_DSP_BLOCK    0
 #define EI_CLASSIFIER_HAS_MODEL_VARIABLES        1
 
@@ -72,8 +72,8 @@
 
 #define EI_CLASSIFIER_TFLITE_INPUT_DATATYPE         EI_CLASSIFIER_DATATYPE_INT8
 #define EI_CLASSIFIER_TFLITE_INPUT_QUANTIZED        1
-#define EI_CLASSIFIER_TFLITE_INPUT_SCALE            0.023719165474176407
-#define EI_CLASSIFIER_TFLITE_INPUT_ZEROPOINT        -128
+#define EI_CLASSIFIER_TFLITE_INPUT_SCALE            0.1986280083656311
+#define EI_CLASSIFIER_TFLITE_INPUT_ZEROPOINT        -97
 #define EI_CLASSIFIER_TFLITE_OUTPUT_DATATYPE        EI_CLASSIFIER_DATATYPE_INT8
 #define EI_CLASSIFIER_TFLITE_OUTPUT_QUANTIZED       1
 #define EI_CLASSIFIER_TFLITE_OUTPUT_SCALE           0.00390625
@@ -85,13 +85,13 @@
 #define EI_CLASSIFIER_INFERENCING_ENGINE            EI_CLASSIFIER_TFLITE
 
 
-#define EI_CLASSIFIER_COMPILED                      0
+#define EI_CLASSIFIER_COMPILED                      1
 #define EI_CLASSIFIER_HAS_TFLITE_OPS_RESOLVER       1
 
 
 #define EI_CLASSIFIER_HAS_FFT_INFO               1
-#define EI_CLASSIFIER_LOAD_FFT_32                0
-#define EI_CLASSIFIER_LOAD_FFT_64                1
+#define EI_CLASSIFIER_LOAD_FFT_32                1
+#define EI_CLASSIFIER_LOAD_FFT_64                0
 #define EI_CLASSIFIER_LOAD_FFT_128               0
 #define EI_CLASSIFIER_LOAD_FFT_256               0
 #define EI_CLASSIFIER_LOAD_FFT_512               0
@@ -177,12 +177,15 @@ typedef struct {
     const char * filter_type;
     float filter_cutoff;
     int filter_order;
+    const char * analysis_type;
     int fft_length;
     int spectral_peaks_count;
     float spectral_peaks_threshold;
     const char * spectral_power_edges;
     bool do_log;
     bool do_fft_overlap;
+    int wavelet_level;
+    const char * wavelet;
 } ei_dsp_config_spectral_analysis_t;
 
 typedef struct {

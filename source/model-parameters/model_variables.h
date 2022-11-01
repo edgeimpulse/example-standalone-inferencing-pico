@@ -28,21 +28,24 @@
 
 const char* ei_classifier_inferencing_categories[] = { "idle", "snake", "updown", "wave" };
 
-uint8_t ei_dsp_config_3_axes[] = { 0, 1, 2 };
-const uint32_t ei_dsp_config_3_axes_size = 3;
-ei_dsp_config_spectral_analysis_t ei_dsp_config_3 = {
-    1,
+uint8_t ei_dsp_config_105_axes[] = { 0, 1, 2 };
+const uint32_t ei_dsp_config_105_axes_size = 3;
+ei_dsp_config_spectral_analysis_t ei_dsp_config_105 = {
     3,
-    0.05096839959f,
-    "low",
-    3.0f,
+    3,
+    0.03314159039648f,
+    "none",
+    0.0f,
     6,
-    64,
+    "Wavelet",
+    32,
     3,
     0.1f,
     "0.1, 0.5, 1.0, 2.0, 5.0",
     true,
-    true
+    false,
+    1,
+    "rbio3.9"
 };
 const ei_model_performance_calibration_t ei_calibration = {
     1, /* integer version number */

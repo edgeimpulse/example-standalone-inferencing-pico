@@ -2402,7 +2402,21 @@ public:
     {
         // Use CMSIS either way.  Will fall back to straight C when needed
         float temp;
+#if EIDSP_USE_CMSIS_DSP
         arm_var_f32(input, size, &temp);
+#else
+        float mean = 0.0f;
+        for (size_t i = 0; i < size; i++) {
+            mean += input[i];
+        }
+        mean /= size;
+
+        temp = 0.0f;
+        for (size_t i = 0; i < size; i++) {
+            temp += (input[i] - mean) * (input[i] - mean);
+        }
+        temp /= (size - 1);
+#endif
         return temp;
     }
 

@@ -76,6 +76,13 @@ __attribute__((unused)) int extract_spectral_analysis_features(
             config,
             frequency);
     }
+    if (config->implementation_version == 3) {
+        return spectral::feature::extract_spectral_analysis_features_v3(
+            &input_matrix,
+            output_matrix,
+            config,
+            frequency);
+    }
 
     return EIDSP_NOT_SUPPORTED;
 }
