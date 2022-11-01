@@ -7,7 +7,7 @@
 
 const uint LED_PIN = 25;
 
-static const float features[] = {
+static const float features[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE] = {
     // copy raw features here (for example from the 'Live classification' page)
 
 };

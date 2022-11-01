@@ -17,6 +17,7 @@ add_executable(app
 
 add_subdirectory(source)
 target_link_libraries(app pico_stdlib)
+target_link_options(app PRIVATE -Wl,--print-memory-usage)
 
 # enable usb output, disable uart output
 pico_enable_stdio_usb(app 1)
