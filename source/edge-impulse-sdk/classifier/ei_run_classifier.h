@@ -159,56 +159,56 @@ extern "C" EI_IMPULSE_ERROR process_impulse(const ei_impulse_t *impulse,
                                             bool debug = false)
 {
 
-#if (EI_CLASSIFIER_TFLITE_INPUT_QUANTIZED == 1 && (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE || EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TENSAIFLOW)) || EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_DRPAI
-    // Shortcut for quantized image models
-    if (can_run_classifier_image_quantized(impulse) == EI_IMPULSE_OK) {
-        return run_classifier_image_quantized(impulse, signal, result, debug);
-    }
-#endif
+// #if (EI_CLASSIFIER_TFLITE_INPUT_QUANTIZED == 1 && (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE || EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TENSAIFLOW)) || EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_DRPAI
+//     // Shortcut for quantized image models
+//     if (can_run_classifier_image_quantized(impulse) == EI_IMPULSE_OK) {
+//         return run_classifier_image_quantized(impulse, signal, result, debug);
+//     }
+// #endif
 
     memset(result, 0, sizeof(ei_impulse_result_t));
 
     ei::matrix_t features_matrix(1, impulse->nn_input_frame_size);
 
-    uint64_t dsp_start_us = ei_read_timer_us();
+    // uint64_t dsp_start_us = ei_read_timer_us();
 
-    size_t out_features_index = 0;
+//     size_t out_features_index = 0;
 
-    for (size_t ix = 0; ix < impulse->dsp_blocks_size; ix++) {
-        ei_model_dsp_t block = impulse->dsp_blocks[ix];
+//     for (size_t ix = 0; ix < impulse->dsp_blocks_size; ix++) {
+//         ei_model_dsp_t block = impulse->dsp_blocks[ix];
 
-        if (out_features_index + block.n_output_features > impulse->nn_input_frame_size) {
-            ei_printf("ERR: Would write outside feature buffer\n");
-            return EI_IMPULSE_DSP_ERROR;
-        }
+//         if (out_features_index + block.n_output_features > impulse->nn_input_frame_size) {
+//             ei_printf("ERR: Would write outside feature buffer\n");
+//             return EI_IMPULSE_DSP_ERROR;
+//         }
 
-        ei::matrix_t fm(1, block.n_output_features, features_matrix.buffer + out_features_index);
+//         ei::matrix_t fm(1, block.n_output_features, features_matrix.buffer + out_features_index);
 
-#if EIDSP_SIGNAL_C_FN_POINTER
-        if (block.axes_size != impulse->raw_samples_per_frame) {
-            ei_printf("ERR: EIDSP_SIGNAL_C_FN_POINTER can only be used when all axes are selected for DSP blocks\n");
-            return EI_IMPULSE_DSP_ERROR;
-        }
-        int ret = block.extract_fn(signal, &fm, block.config, impulse->frequency);
-#else
-        SignalWithAxes swa(signal, block.axes, block.axes_size, impulse);
-        int ret = block.extract_fn(swa.get_signal(), &fm, block.config, impulse->frequency);
-#endif
+// #if EIDSP_SIGNAL_C_FN_POINTER
+//         if (block.axes_size != impulse->raw_samples_per_frame) {
+//             ei_printf("ERR: EIDSP_SIGNAL_C_FN_POINTER can only be used when all axes are selected for DSP blocks\n");
+//             return EI_IMPULSE_DSP_ERROR;
+//         }
+//         int ret = block.extract_fn(signal, &fm, block.config, impulse->frequency);
+// #else
+//         SignalWithAxes swa(signal, block.axes, block.axes_size, impulse);
+//         int ret = block.extract_fn(swa.get_signal(), &fm, block.config, impulse->frequency);
+// #endif
 
-        if (ret != EIDSP_OK) {
-            ei_printf("ERR: Failed to run DSP process (%d)\n", ret);
-            return EI_IMPULSE_DSP_ERROR;
-        }
+//         if (ret != EIDSP_OK) {
+//             ei_printf("ERR: Failed to run DSP process (%d)\n", ret);
+//             return EI_IMPULSE_DSP_ERROR;
+//         }
 
-        if (ei_run_impulse_check_canceled() == EI_IMPULSE_CANCELED) {
-            return EI_IMPULSE_CANCELED;
-        }
+//         if (ei_run_impulse_check_canceled() == EI_IMPULSE_CANCELED) {
+//             return EI_IMPULSE_CANCELED;
+//         }
 
-        out_features_index += block.n_output_features;
-    }
+//         out_features_index += block.n_output_features;
+//     }
 
-    result->timing.dsp_us = ei_read_timer_us() - dsp_start_us;
-    result->timing.dsp = (int)(result->timing.dsp_us / 1000);
+//     result->timing.dsp_us = ei_read_timer_us() - dsp_start_us;
+//     result->timing.dsp = (int)(result->timing.dsp_us / 1000);
 
     if (debug) {
         ei_printf("Features (%d ms.): ", result->timing.dsp);
