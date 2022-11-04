@@ -26,27 +26,30 @@
 #include "model_metadata.h"
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 
-const char* ei_classifier_inferencing_categories[] = { "idle", "snake", "updown", "wave" };
+const char* ei_classifier_inferencing_categories[] = { "idle", "snake" };
 
-uint8_t ei_dsp_config_105_axes[] = { 0, 1, 2 };
-const uint32_t ei_dsp_config_105_axes_size = 3;
-ei_dsp_config_spectral_analysis_t ei_dsp_config_105 = {
+uint8_t ei_dsp_config_19_axes[] = { 0, 1, 2 };
+const uint32_t ei_dsp_config_19_axes_size = 3;
+ei_dsp_config_spectral_analysis_t ei_dsp_config_19 = {
     3,
     3,
-    0.03314159039648f,
+    1.0f,
     "none",
-    0.0f,
+    3.0f,
     6,
-    "Wavelet",
-    32,
+    "FFT",
+    16,
     3,
     0.1f,
     "0.1, 0.5, 1.0, 2.0, 5.0",
     true,
-    false,
-    1,
-    "rbio3.9"
+    true,
+    4,
+    "db4"
 };
+
+#define EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_FFT 1
+
 const ei_model_performance_calibration_t ei_calibration = {
     1, /* integer version number */
     false, /* has configured performance calibration */

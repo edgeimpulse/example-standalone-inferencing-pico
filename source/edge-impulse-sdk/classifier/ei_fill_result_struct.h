@@ -23,6 +23,19 @@
 #include "model-parameters/model_variables.h"
 #endif
 
+#ifndef EI_HAS_OBJECT_DETECTION
+    #if (EI_CLASSIFIER_OBJECT_DETECTION_LAST_LAYER == EI_CLASSIFIER_LAST_LAYER_SSD)
+    #define EI_HAS_SSD 1
+    #endif
+    #if (EI_CLASSIFIER_OBJECT_DETECTION_LAST_LAYER == EI_CLASSIFIER_LAST_LAYER_FOMO)
+    #define EI_HAS_FOMO 1
+    #endif
+    #if (EI_CLASSIFIER_OBJECT_DETECTION_LAST_LAYER == EI_CLASSIFIER_LAST_LAYER_YOLOV5)
+    #define EI_HAS_YOLOV5 1
+    #endif
+#endif
+
+#ifdef EI_HAS_FOMO
 typedef struct cube {
     size_t x;
     size_t y;
@@ -66,7 +79,6 @@ __attribute__((unused)) static bool ei_cube_check_overlap(ei_classifier_cube_t *
     if (confidence > c->confidence) {
         c->confidence = confidence;
     }
-
     return true;
 }
 
@@ -158,8 +170,10 @@ __attribute__((unused)) static void fill_result_struct_from_cubes(ei_impulse_res
     result->bounding_boxes = results.data();
     result->bounding_boxes_count = results.size();
 }
+#endif
 
 __attribute__((unused)) static void fill_result_struct_f32_fomo(const ei_impulse_t *impulse, ei_impulse_result_t *result, float *data, int out_width, int out_height) {
+#ifdef EI_HAS_FOMO
     std::vector<ei_classifier_cube_t*> cubes;
 
     int out_width_factor = impulse->input_width / out_width;
@@ -178,9 +192,11 @@ __attribute__((unused)) static void fill_result_struct_f32_fomo(const ei_impulse
     }
 
     fill_result_struct_from_cubes(result, &cubes, out_width_factor, impulse->object_detection_count);
+#endif
 }
 
 __attribute__((unused)) static void fill_result_struct_i8_fomo(const ei_impulse_t *impulse, ei_impulse_result_t *result, int8_t *data, float zero_point, float scale, int out_width, int out_height) {
+#ifdef EI_HAS_FOMO
     std::vector<ei_classifier_cube_t*> cubes;
 
     int out_width_factor = impulse->input_width / out_width;
@@ -200,6 +216,7 @@ __attribute__((unused)) static void fill_result_struct_i8_fomo(const ei_impulse_
     }
 
     fill_result_struct_from_cubes(result, &cubes, out_width_factor, impulse->object_detection_count);
+#endif
 }
 
 /**
@@ -207,6 +224,7 @@ __attribute__((unused)) static void fill_result_struct_i8_fomo(const ei_impulse_
  * (we don't support quantized here a.t.m.)
  */
 __attribute__((unused)) static void fill_result_struct_f32_object_detection(const ei_impulse_t *impulse, ei_impulse_result_t *result, float *data, float *scores, float *labels, bool debug) {
+#ifdef EI_HAS_SSD
     static std::vector<ei_impulse_result_bounding_box_t> results;
     results.clear();
     results.resize(impulse->object_detection_count);
@@ -261,6 +279,7 @@ __attribute__((unused)) static void fill_result_struct_f32_object_detection(cons
     }
     result->bounding_boxes = results.data();
     result->bounding_boxes_count = results.size();
+#endif
 }
 
 /**
@@ -302,6 +321,7 @@ __attribute__((unused)) static void fill_result_struct_f32(const ei_impulse_t *i
   * (we don't support quantized here a.t.m.)
   */
 __attribute__((unused)) static void fill_result_struct_f32_yolov5(const ei_impulse_t *impulse, ei_impulse_result_t *result, float *data, size_t output_features_count) {
+#ifdef EI_HAS_YOLOV5
     static std::vector<ei_impulse_result_bounding_box_t> results;
     results.clear();
 
@@ -358,6 +378,7 @@ __attribute__((unused)) static void fill_result_struct_f32_yolov5(const ei_impul
 
     result->bounding_boxes = results.data();
     result->bounding_boxes_count = results.size();
+#endif
 }
 
 

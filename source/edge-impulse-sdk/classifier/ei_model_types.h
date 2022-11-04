@@ -87,7 +87,6 @@ typedef struct ei_impulse {
     uint16_t label_count;
     bool has_anomaly;
     float frequency;
-    bool use_quantized_dsp_block;
     size_t dsp_blocks_size;
     ei_model_dsp_t *dsp_blocks;
 

@@ -56,12 +56,27 @@ __attribute__((unused)) int extract_spectral_analysis_features(
 
     // input matrix from the raw signal
     matrix_t input_matrix(signal->total_length / config->axes, config->axes);
-    if (!input_matrix.buffer) {  
+    if (!input_matrix.buffer) {
         EIDSP_ERR(EIDSP_OUT_OF_MEM);
     }
 
     signal->get_data(0, signal->total_length, input_matrix.buffer);
 
+    if (config->implementation_version == 3) {
+#if EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_WAVELET || EI_DSP_PARAMS_ALL
+        if (strcmp(config->analysis_type, "Wavelet") == 0) {
+            return spectral::wavelet::extract_wavelet_features(&input_matrix, output_matrix, config, frequency);
+        }
+#endif
+
+#if EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_FFT || EI_DSP_PARAMS_ALL
+        if (strcmp(config->analysis_type, "FFT") == 0) {
+            return spectral::feature::extract_spectral_analysis_features_v2(&input_matrix, output_matrix, config, frequency);
+        }
+#endif
+    } // if v3
+
+#if EI_DSP_PARAMS_ALL || !(EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_FFT || EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_WAVELET)
     if (config->implementation_version == 1) {
         return spectral::feature::extract_spectral_analysis_features_v1(
             &input_matrix,
@@ -76,14 +91,7 @@ __attribute__((unused)) int extract_spectral_analysis_features(
             config,
             frequency);
     }
-    if (config->implementation_version == 3) {
-        return spectral::feature::extract_spectral_analysis_features_v3(
-            &input_matrix,
-            output_matrix,
-            config,
-            frequency);
-    }
-
+#endif
     return EIDSP_NOT_SUPPORTED;
 }
 
@@ -365,7 +373,7 @@ __attribute__((unused)) int extract_mfcc_per_slice_features(signal_t *signal, ma
 
     if (frame_overlap_values < 0) {
         ei_printf("ERR: frame_length (");
-        ei_printf_float(config.frame_length);            
+        ei_printf_float(config.frame_length);
         ei_printf(") cannot be lower than frame_stride (");
         ei_printf_float(config.frame_stride);
         ei_printf(") for continuous classification\n");
@@ -644,7 +652,7 @@ __attribute__((unused)) int extract_spectrogram_per_slice_features(signal_t *sig
 
     if (frame_overlap_values < 0) {
         ei_printf("ERR: frame_length (");
-        ei_printf_float(config.frame_length);            
+        ei_printf_float(config.frame_length);
         ei_printf(") cannot be lower than frame_stride (");
         ei_printf_float(config.frame_stride);
         ei_printf(") for continuous classification\n");
@@ -970,7 +978,7 @@ __attribute__((unused)) int extract_mfe_per_slice_features(signal_t *signal, mat
 
     if (frame_overlap_values < 0) {
         ei_printf("ERR: frame_length (");
-            ei_printf_float(config.frame_length);            
+            ei_printf_float(config.frame_length);
             ei_printf(") cannot be lower than frame_stride (");
             ei_printf_float(config.frame_stride);
             ei_printf(") for continuous classification\n");
@@ -1359,7 +1367,7 @@ __attribute__((unused)) int ei_dsp_clear_continuous_audio_state() {
  * @param      matrix      Source and destination matrix
  * @param      config_ptr  ei_dsp_config_mfcc_t struct pointer
  */
-static void calc_cepstral_mean_and_var_normalization_mfcc(ei_matrix *matrix, void *config_ptr)
+__attribute__((unused)) void calc_cepstral_mean_and_var_normalization_mfcc(ei_matrix *matrix, void *config_ptr)
 {
     ei_dsp_config_mfcc_t *config = (ei_dsp_config_mfcc_t *)config_ptr;
 
@@ -1387,7 +1395,7 @@ static void calc_cepstral_mean_and_var_normalization_mfcc(ei_matrix *matrix, voi
  * @param      matrix      Source and destination matrix
  * @param      config_ptr  ei_dsp_config_mfe_t struct pointer
  */
-static void calc_cepstral_mean_and_var_normalization_mfe(ei_matrix *matrix, void *config_ptr)
+__attribute__((unused)) void calc_cepstral_mean_and_var_normalization_mfe(ei_matrix *matrix, void *config_ptr)
 {
     ei_dsp_config_mfe_t *config = (ei_dsp_config_mfe_t *)config_ptr;
 
@@ -1425,7 +1433,7 @@ static void calc_cepstral_mean_and_var_normalization_mfe(ei_matrix *matrix, void
  * @param      matrix      Source and destination matrix
  * @param      config_ptr  ei_dsp_config_spectrogram_t struct pointer
  */
-static void calc_cepstral_mean_and_var_normalization_spectrogram(ei_matrix *matrix, void *config_ptr)
+__attribute__((unused)) void calc_cepstral_mean_and_var_normalization_spectrogram(ei_matrix *matrix, void *config_ptr)
 {
     ei_dsp_config_spectrogram_t *config = (ei_dsp_config_spectrogram_t *)config_ptr;
 

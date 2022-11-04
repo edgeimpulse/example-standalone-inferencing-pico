@@ -428,19 +428,6 @@ public:
         }
         return EIDSP_OK;
     }
-
-
-    static int extract_spectral_analysis_features_v3(
-        matrix_t *input_matrix,
-        matrix_t *output_matrix,
-        ei_dsp_config_spectral_analysis_t *config,
-        const float sampling_freq)
-    {
-        if (strcmp(config->analysis_type, "Wavelet") == 0)
-            return wavelet::extract_wavelet_features(input_matrix, output_matrix, config, sampling_freq);
-        else
-            return extract_spectral_analysis_features_v2(input_matrix, output_matrix, config, sampling_freq);
-    }
 };
 
 } // namespace spectral
