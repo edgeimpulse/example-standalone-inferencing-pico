@@ -22,6 +22,9 @@
 #include "edge-impulse-sdk/dsp/spectral/spectral.hpp"
 #include "edge-impulse-sdk/dsp/speechpy/speechpy.hpp"
 #include "edge-impulse-sdk/classifier/ei_signal_with_range.h"
+#ifdef EI_CLASSIFIER_HAS_MODEL_VARIABLES
+#include "model-parameters/model_variables.h"
+#endif
 
 #if defined(__cplusplus) && EI_C_LINKAGE == 1
 extern "C" {

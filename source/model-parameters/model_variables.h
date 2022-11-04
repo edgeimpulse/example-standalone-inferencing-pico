@@ -37,18 +37,18 @@ ei_dsp_config_spectral_analysis_t ei_dsp_config_19 = {
     "none",
     3.0f,
     6,
-    "FFT",
+    "Wavelet",
     16,
     3,
     0.1f,
     "0.1, 0.5, 1.0, 2.0, 5.0",
     true,
     true,
-    4,
+    1,
     "db4"
 };
 
-#define EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_FFT 1
+#define EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_WAVELET 1
 
 const ei_model_performance_calibration_t ei_calibration = {
     1, /* integer version number */

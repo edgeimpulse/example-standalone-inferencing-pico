@@ -30,7 +30,7 @@
 const size_t ei_dsp_blocks_size = 1;
 ei_model_dsp_t ei_dsp_blocks[ei_dsp_blocks_size] = {
     { // DSP block 19
-        33,
+        84,
         &extract_spectral_analysis_features,
         (void*)&ei_dsp_config_19,
         ei_dsp_config_19_axes,
