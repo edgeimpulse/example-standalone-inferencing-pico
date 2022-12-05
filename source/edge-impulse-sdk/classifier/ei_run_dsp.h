@@ -67,9 +67,11 @@ __attribute__((unused)) int extract_spectral_analysis_features(
 
     if (config->implementation_version == 3) {
 #if EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_WAVELET || EI_DSP_PARAMS_ALL
-        if (strcmp(config->analysis_type, "Wavelet") == 0) {
-            return spectral::wavelet::extract_wavelet_features(&input_matrix, output_matrix, config, frequency);
-        }
+    if(hasWavelet()) {
+            if (strcmp(config->analysis_type, "Wavelet") == 0) {
+                return spectral::wavelet::extract_wavelet_features(&input_matrix, output_matrix, config, frequency);
+            }
+    }
 #endif
 
 #if EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_FFT || EI_DSP_PARAMS_ALL

@@ -7,14 +7,14 @@
 
 const uint LED_PIN = 25;
 
-static const float features[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE] = {
-    // copy raw features here (for example from the 'Live classification' page)
+// static const float features[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE] = {
+//     // copy raw features here (for example from the 'Live classification' page)
 
-};
+// };
 
 int raw_feature_get_data(size_t offset, size_t length, float *out_ptr)
 {
-  memcpy(out_ptr, features + offset, length * sizeof(float));
+  // memcpy(out_ptr, features + offset, length * sizeof(float));
   return 0;
 }
 
@@ -29,14 +29,14 @@ int main()
 
   while (true)
   {
-    ei_printf("Edge Impulse standalone inferencing (Raspberry Pi Pico)\n");
+    // ei_printf("Edge Impulse standalone inferencing (Raspberry Pi Pico)\n");
 
-    if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE)
-    {
-      ei_printf("The size of your 'features' array is not correct. Expected %d items, but had %u\n",
-                EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE, sizeof(features) / sizeof(float));
-      return 1;
-    }
+    // if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE)
+    // {
+    //   ei_printf("The size of your 'features' array is not correct. Expected %d items, but had %u\n",
+    //             EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE, sizeof(features) / sizeof(float));
+    //   return 1;
+    // }
 
     while (1)
     {
@@ -45,7 +45,7 @@ int main()
 
       // the features are stored into flash, and we don't want to load everything into RAM
       signal_t features_signal;
-      features_signal.total_length = sizeof(features) / sizeof(features[0]);
+      features_signal.total_length = EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE; //sizeof(features) / sizeof(features[0]);
       features_signal.get_data = &raw_feature_get_data;
 
       // invoke the impulse

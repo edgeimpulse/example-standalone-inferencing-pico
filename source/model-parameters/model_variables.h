@@ -30,7 +30,7 @@ const char* ei_classifier_inferencing_categories[] = { "idle", "snake" };
 
 uint8_t ei_dsp_config_19_axes[] = { 0, 1, 2 };
 const uint32_t ei_dsp_config_19_axes_size = 3;
-ei_dsp_config_spectral_analysis_t ei_dsp_config_19 = {
+constexpr ei_dsp_config_spectral_analysis_t ei_dsp_config_19 = {
     3,
     3,
     1.0f,
@@ -49,6 +49,11 @@ ei_dsp_config_spectral_analysis_t ei_dsp_config_19 = {
 };
 
 #define EI_DSP_PARAMS_SPECTRAL_ANALYSIS_ANALYSIS_TYPE_WAVELET 1
+#define EI_DSP_PARAMS_ALL 1
+
+constexpr bool hasWavelet() {
+    return ei_dsp_config_19.fft_length == 16;
+}
 
 const ei_model_performance_calibration_t ei_calibration = {
     1, /* integer version number */
