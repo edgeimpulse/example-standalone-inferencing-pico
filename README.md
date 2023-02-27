@@ -18,7 +18,7 @@ This repository runs an exported impulse on the Raspberry Pi Pico / RP2040. See 
    git clone -b master https://github.com/raspberrypi/pico-sdk.git
    cd pico-sdk
    git submodule update --init
-   export PATH="<Path to Pico SDK>:$PATH"
+   export PATH="<Path to Pico SDK>"
    ```
 
 ## Building the application
